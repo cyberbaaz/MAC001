@@ -44,17 +44,14 @@ def handle_args():
     elif not options.mac_adress:
         parser.error(RED11 + '[-] PLEASE PUT A FUCKING MAC ADRESS')
     return options
-def change_mac01(interface, mac_adress):
-    subprocess.call(['sudo', 'ifconfig', interface, 'down'])
-    subprocess.call(['sudo', 'ifconfig', interface, 'hw', 'ether', mac_adress])  
-    subprocess.call(['sudo', 'ifconfig', interface, 'up'])
-def change_mac02(interface, mac_adress): 
+def change_mac(interface, mac_adress): 
+    print(YELLOW22 + "[+] Changing MAC Adress for " + interface + " to: " + mac_address) 
     subprocess.call(['sudo', 'ifconfig', interface, 'down'])
     subprocess.call(['sudo', 'ifconfig', interface, 'hw', 'ether', mac_adress])
     subprocess.call(['sudo', 'ifconfig', interface, 'up'])
 def get_currrent_mac(interface): 
     ifconfig_result = subprocess.check_output(['ifconfig', interface])
-    mac_search_result = re.search(r'\w\w:\w\w:\w\w:\w\w:\w\w:\w\w', ifconfig_result)
+    mac_search_result = re.search(r'\w\w:\w\w:\w\w:\w\w:\w\w:\w\w', str(ifconfig_result))
     if mac_search_result:
         return (mac_search_result.group(0))
     else:
@@ -65,11 +62,7 @@ options = handle_args()
 current_mac = get_currrent_mac(options.interface) 
 print(PURP + 'Current MAC Adress = ' + str(current_mac)) 
 
-change_mac02(options.interface, options.mac_adress) 
-
-print(YELLOW22 + "[+] Changeing MAC Adress for " + options.interface + " to: " + options.mac_adress) 
-
-change_mac02(options.interface, options.mac_adress)
+change_mac(options.interface, options.mac_adress)
 current_mac = get_currrent_mac(options.interface)
 if current_mac == options.mac_adress:
     print(TGREEN + '[+] MAC Adress was successfully changed to ' + str(current_mac))
