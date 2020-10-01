@@ -75,9 +75,3 @@ if current_mac == options.mac_adress:
     print(TGREEN + '[+] MAC Adress was successfully changed to ' + str(current_mac))
 else:
     print(RED11 + '[-] ERROR MAC Adress was not changed')
-
-    
-    
-
-
-
